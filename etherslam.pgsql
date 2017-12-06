@@ -85,6 +85,41 @@ ALTER SEQUENCE token_id_seq OWNED BY token.id;
 
 
 --
+-- Name: tokenprice; Type: TABLE; Schema: public; Owner: etherslam
+--
+
+CREATE TABLE tokenprice (
+    id integer NOT NULL,
+    tokenid integer NOT NULL,
+    price numeric NOT NULL,
+    dateupdated timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE tokenprice OWNER TO etherslam;
+
+--
+-- Name: tokenprice_id_seq; Type: SEQUENCE; Schema: public; Owner: etherslam
+--
+
+CREATE SEQUENCE tokenprice_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE tokenprice_id_seq OWNER TO etherslam;
+
+--
+-- Name: tokenprice_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: etherslam
+--
+
+ALTER SEQUENCE tokenprice_id_seq OWNED BY tokenprice.id;
+
+
+--
 -- Name: tokensupply; Type: TABLE; Schema: public; Owner: etherslam
 --
 
@@ -167,6 +202,13 @@ ALTER TABLE ONLY token ALTER COLUMN id SET DEFAULT nextval('token_id_seq'::regcl
 
 
 --
+-- Name: tokenprice id; Type: DEFAULT; Schema: public; Owner: etherslam
+--
+
+ALTER TABLE ONLY tokenprice ALTER COLUMN id SET DEFAULT nextval('tokenprice_id_seq'::regclass);
+
+
+--
 -- Name: tokensupply id; Type: DEFAULT; Schema: public; Owner: etherslam
 --
 
@@ -186,6 +228,13 @@ ALTER TABLE ONLY transaction ALTER COLUMN id SET DEFAULT nextval('transaction_id
 
 ALTER TABLE ONLY transaction
     ADD CONSTRAINT transaction_hash_key UNIQUE (hash);
+
+
+--
+-- Name: tokenprice update_tokenprice_dateupdated; Type: TRIGGER; Schema: public; Owner: etherslam
+--
+
+CREATE TRIGGER update_tokenprice_dateupdated BEFORE UPDATE ON tokenprice FOR EACH ROW EXECUTE PROCEDURE update_dateupdated_column();
 
 
 --
