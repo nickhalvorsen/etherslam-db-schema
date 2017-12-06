@@ -231,6 +231,54 @@ ALTER TABLE ONLY transaction
 
 
 --
+-- Name: token uq_token_id; Type: CONSTRAINT; Schema: public; Owner: etherslam
+--
+
+ALTER TABLE ONLY token
+    ADD CONSTRAINT uq_token_id UNIQUE (id);
+
+
+--
+-- Name: tokenprice uq_tokenprice_id; Type: CONSTRAINT; Schema: public; Owner: etherslam
+--
+
+ALTER TABLE ONLY tokenprice
+    ADD CONSTRAINT uq_tokenprice_id UNIQUE (id);
+
+
+--
+-- Name: tokenprice uq_tokenprice_tokenid; Type: CONSTRAINT; Schema: public; Owner: etherslam
+--
+
+ALTER TABLE ONLY tokenprice
+    ADD CONSTRAINT uq_tokenprice_tokenid UNIQUE (tokenid);
+
+
+--
+-- Name: tokensupply uq_tokensupply_id; Type: CONSTRAINT; Schema: public; Owner: etherslam
+--
+
+ALTER TABLE ONLY tokensupply
+    ADD CONSTRAINT uq_tokensupply_id UNIQUE (id);
+
+
+--
+-- Name: tokensupply uq_tokensupply_tokenid; Type: CONSTRAINT; Schema: public; Owner: etherslam
+--
+
+ALTER TABLE ONLY tokensupply
+    ADD CONSTRAINT uq_tokensupply_tokenid UNIQUE (tokenid);
+
+
+--
+-- Name: transaction uq_transaction_hash; Type: CONSTRAINT; Schema: public; Owner: etherslam
+--
+
+ALTER TABLE ONLY transaction
+    ADD CONSTRAINT uq_transaction_hash UNIQUE (hash);
+
+
+--
 -- Name: tokenprice update_tokenprice_dateupdated; Type: TRIGGER; Schema: public; Owner: etherslam
 --
 
@@ -242,6 +290,22 @@ CREATE TRIGGER update_tokenprice_dateupdated BEFORE UPDATE ON tokenprice FOR EAC
 --
 
 CREATE TRIGGER update_tokensupply_dateupdated BEFORE UPDATE ON tokensupply FOR EACH ROW EXECUTE PROCEDURE update_dateupdated_column();
+
+
+--
+-- Name: tokenprice fk_tokenprice_tokenid_token_id; Type: FK CONSTRAINT; Schema: public; Owner: etherslam
+--
+
+ALTER TABLE ONLY tokenprice
+    ADD CONSTRAINT fk_tokenprice_tokenid_token_id FOREIGN KEY (tokenid) REFERENCES token(id);
+
+
+--
+-- Name: tokensupply fk_tokensupply_tokenid_token_id; Type: FK CONSTRAINT; Schema: public; Owner: etherslam
+--
+
+ALTER TABLE ONLY tokensupply
+    ADD CONSTRAINT fk_tokensupply_tokenid_token_id FOREIGN KEY (tokenid) REFERENCES token(id);
 
 
 --
