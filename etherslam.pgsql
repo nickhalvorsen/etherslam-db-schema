@@ -239,6 +239,14 @@ ALTER TABLE ONLY token
 
 
 --
+-- Name: token uq_token_symbol; Type: CONSTRAINT; Schema: public; Owner: etherslam
+--
+
+ALTER TABLE ONLY token
+    ADD CONSTRAINT uq_token_symbol UNIQUE (symbol);
+
+
+--
 -- Name: tokenprice uq_tokenprice_id; Type: CONSTRAINT; Schema: public; Owner: etherslam
 --
 
