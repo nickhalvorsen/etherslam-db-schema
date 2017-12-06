@@ -30,9 +30,95 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 SET search_path = public, pg_catalog;
 
+--
+-- Name: update_dateupdated_column(); Type: FUNCTION; Schema: public; Owner: etherslam
+--
+
+CREATE FUNCTION update_dateupdated_column() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+begin
+ NEW.dateUpdated = current_timestamp;
+ return NEW;
+END;
+$$;
+
+
+ALTER FUNCTION public.update_dateupdated_column() OWNER TO etherslam;
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
+
+--
+-- Name: token; Type: TABLE; Schema: public; Owner: etherslam
+--
+
+CREATE TABLE token (
+    id integer NOT NULL,
+    name character varying(100) NOT NULL,
+    symbol character varying(10) NOT NULL
+);
+
+
+ALTER TABLE token OWNER TO etherslam;
+
+--
+-- Name: token_id_seq; Type: SEQUENCE; Schema: public; Owner: etherslam
+--
+
+CREATE SEQUENCE token_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE token_id_seq OWNER TO etherslam;
+
+--
+-- Name: token_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: etherslam
+--
+
+ALTER SEQUENCE token_id_seq OWNED BY token.id;
+
+
+--
+-- Name: tokensupply; Type: TABLE; Schema: public; Owner: etherslam
+--
+
+CREATE TABLE tokensupply (
+    id integer NOT NULL,
+    tokenid integer NOT NULL,
+    totalsupply numeric NOT NULL,
+    dateupdated timestamp without time zone DEFAULT now() NOT NULL,
+    istotalsupplystatic boolean DEFAULT false NOT NULL
+);
+
+
+ALTER TABLE tokensupply OWNER TO etherslam;
+
+--
+-- Name: tokensupply_id_seq; Type: SEQUENCE; Schema: public; Owner: etherslam
+--
+
+CREATE SEQUENCE tokensupply_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE tokensupply_id_seq OWNER TO etherslam;
+
+--
+-- Name: tokensupply_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: etherslam
+--
+
+ALTER SEQUENCE tokensupply_id_seq OWNED BY tokensupply.id;
+
 
 --
 -- Name: transaction; Type: TABLE; Schema: public; Owner: etherslam
@@ -74,6 +160,20 @@ ALTER SEQUENCE transaction_id_seq OWNED BY transaction.id;
 
 
 --
+-- Name: token id; Type: DEFAULT; Schema: public; Owner: etherslam
+--
+
+ALTER TABLE ONLY token ALTER COLUMN id SET DEFAULT nextval('token_id_seq'::regclass);
+
+
+--
+-- Name: tokensupply id; Type: DEFAULT; Schema: public; Owner: etherslam
+--
+
+ALTER TABLE ONLY tokensupply ALTER COLUMN id SET DEFAULT nextval('tokensupply_id_seq'::regclass);
+
+
+--
 -- Name: transaction id; Type: DEFAULT; Schema: public; Owner: etherslam
 --
 
@@ -86,6 +186,13 @@ ALTER TABLE ONLY transaction ALTER COLUMN id SET DEFAULT nextval('transaction_id
 
 ALTER TABLE ONLY transaction
     ADD CONSTRAINT transaction_hash_key UNIQUE (hash);
+
+
+--
+-- Name: tokensupply update_tokensupply_dateupdated; Type: TRIGGER; Schema: public; Owner: etherslam
+--
+
+CREATE TRIGGER update_tokensupply_dateupdated BEFORE UPDATE ON tokensupply FOR EACH ROW EXECUTE PROCEDURE update_dateupdated_column();
 
 
 --
