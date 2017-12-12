@@ -91,7 +91,7 @@ ALTER SEQUENCE token_id_seq OWNED BY token.id;
 CREATE TABLE tokenprice (
     id integer NOT NULL,
     tokenid integer NOT NULL,
-    price numeric NOT NULL,
+    priceusd numeric NOT NULL,
     dateupdated timestamp without time zone DEFAULT now() NOT NULL
 );
 
@@ -167,7 +167,7 @@ CREATE TABLE transaction (
     fromaddress character varying(42) NOT NULL,
     toaddress character varying(42) NOT NULL,
     value numeric NOT NULL,
-    fee numeric NOT NULL
+    fee numeric
 );
 
 
