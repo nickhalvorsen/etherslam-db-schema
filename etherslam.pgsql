@@ -287,6 +287,20 @@ ALTER TABLE ONLY transaction
 
 
 --
+-- Name: ix_transaction_fromaddress; Type: INDEX; Schema: public; Owner: etherslam
+--
+
+CREATE INDEX ix_transaction_fromaddress ON transaction USING btree (fromaddress);
+
+
+--
+-- Name: ix_transaction_toaddress; Type: INDEX; Schema: public; Owner: etherslam
+--
+
+CREATE INDEX ix_transaction_toaddress ON transaction USING btree (toaddress);
+
+
+--
 -- Name: tokenprice update_tokenprice_dateupdated; Type: TRIGGER; Schema: public; Owner: etherslam
 --
 
