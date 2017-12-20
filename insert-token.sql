@@ -1,6 +1,7 @@
 INSERT INTO token
 (name, symbol)
 values
+('Ether', 'ETH'),
 ('EOS', 'EOS'),
 ('OmiseGO', 'OMG'),
 ('Populous', 'PPT'),
