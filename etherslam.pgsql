@@ -167,7 +167,8 @@ CREATE TABLE transaction (
     fromaddress character varying(42) NOT NULL,
     toaddress character varying(42) NOT NULL,
     value numeric NOT NULL,
-    fee numeric
+    fee numeric,
+    success bit(1)
 );
 
 
